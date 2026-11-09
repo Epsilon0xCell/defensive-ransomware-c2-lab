@@ -57,6 +57,11 @@ the host (enforced server-side), no persistence, no spreading,
 no shadow-copy or service or log tampering, no stealth: the lab
 announces itself in its User-Agents, headers and file magic.
 
+## Portfolio write-up
+
+What this project demonstrates, with resume and interview framing:
+docs/portfolio_writeup.md
+
 ## Research basis
 
 Built from a defensive research report on ransomware evasion and
