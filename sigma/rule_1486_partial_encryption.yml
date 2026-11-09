@@ -1,0 +1,18 @@
+title: Lab partial intermittent encryption pattern
+id: 98432000-0000-4000-8000-000000000004
+status: experimental
+description: Defensive lab rule for partial intermittent encryption pattern. Fixture-tested in this repo; tune before any real use.
+author: Gavin Blacklock (Epsilon0xCell)
+date: 2026-11-09
+logsource:
+  product: lab
+  service: telemetry
+detection:
+  selection:
+    event_type: process_create
+  condition: selection
+level: medium
+tags:
+  - attack.t1486
+falsepositives:
+  - Lab fixtures and authorized purple-team exercises only in this form

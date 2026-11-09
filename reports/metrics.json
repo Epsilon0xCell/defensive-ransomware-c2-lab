@@ -1,0 +1,86 @@
+{
+  "rules": [
+    {
+      "rule_id": "lab-1490-recovery-inhibition",
+      "title": "Shadow deletion command line",
+      "attck": "T1490",
+      "attck_legacy": "",
+      "fired_on_positive": true,
+      "fired_on_negative": false,
+      "validated_L3": true,
+      "time_to_detect_s": 1.0264,
+      "fp_notes": "Backup products are the FP source; read-only list must not fire."
+    },
+    {
+      "rule_id": "lab-1486-encryption-burst",
+      "title": "Encryption burst across dummy set",
+      "attck": "T1486",
+      "attck_legacy": "",
+      "fired_on_positive": true,
+      "fired_on_negative": false,
+      "validated_L3": true,
+      "time_to_detect_s": 0.0119,
+      "fp_notes": "Backup/sync bursts are the FP source; rate plus spread is the signal."
+    },
+    {
+      "rule_id": "lab-1486-partial-entropy",
+      "title": "Partial encryption pattern (entropy alone would miss)",
+      "attck": "T1486",
+      "attck_legacy": "",
+      "fired_on_positive": true,
+      "fired_on_negative": false,
+      "validated_L3": true,
+      "time_to_detect_s": 0.0156,
+      "fp_notes": "Fires on mode metadata joined to the burst, teaching the entropy gap."
+    },
+    {
+      "rule_id": "lab-1497-anti-analysis-sequence",
+      "title": "Anti-analysis checks present in run",
+      "attck": "T1497.001",
+      "attck_legacy": "T1497.003",
+      "fired_on_positive": true,
+      "fired_on_negative": false,
+      "validated_L3": true,
+      "time_to_detect_s": 0.0214,
+      "fp_notes": "Never alert on a check alone in production; here it is scored joined to the run."
+    },
+    {
+      "rule_id": "lab-1036-masquerade-fixture",
+      "title": "Masquerading fixture: system name, wrong place",
+      "attck": "T1036",
+      "attck_legacy": "",
+      "fired_on_positive": true,
+      "fired_on_negative": false,
+      "validated_L3": true,
+      "time_to_detect_s": 1.0263,
+      "fp_notes": "Portable admin tools are the FP source; signer plus path tuning required."
+    },
+    {
+      "rule_id": "lab-1071-beacon",
+      "title": "Fake C2 beaconing present",
+      "attck": "T1071.001",
+      "attck_legacy": "",
+      "fired_on_positive": true,
+      "fired_on_negative": false,
+      "validated_L3": true,
+      "time_to_detect_s": 0.0087,
+      "fp_notes": "Updates and telemetry also beacon; baseline per process and destination."
+    },
+    {
+      "rule_id": "lab-1486-variant-extensions",
+      "title": "Encrypted copies under variant extensions",
+      "attck": "T1486",
+      "attck_legacy": "T1036",
+      "fired_on_positive": true,
+      "fired_on_negative": false,
+      "validated_L3": true,
+      "time_to_detect_s": 1.0259,
+      "fp_notes": "Legit archives use odd extensions; join to the burst rule."
+    }
+  ],
+  "validated_count": 7,
+  "total_rules": 7,
+  "validated_coverage_pct": 100.0,
+  "ttd_median_s": 0.0214,
+  "attack_stamp": "technique IDs as researched 2026-11-09 (post-renumbering, legacy IDs noted)"
+}

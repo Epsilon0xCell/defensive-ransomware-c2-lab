@@ -1,0 +1,9 @@
+__pycache__/
+.venv/
+lab_master_key.json
+.lab_token
+sandbox/originals/
+sandbox/encrypted/
+sandbox/restored/
+sandbox/variants/
+sandbox/manifest.json
