@@ -43,6 +43,8 @@ reports/navigator_layer.json, plus a ground-truth telemetry log.
 - lab/detections.py: rules as data, coverage ladder, metrics, Navigator export
 - lab/run_lab.py: one-command end-to-end exercise
 - lab/fake_av.py + lab/bypass_tests.py: a fake AV scanner and its bypass test bench (against the fake AV only), with a generated scorecard
+- lab/rootkit_detector.py: cross-view rootkit detection (T1014) with mechanism fixtures and lesson docs
+- lab/firmware_verifier.py: firmware integrity verification, signed-manifest simulation plus PCR-style measured boot (T1542.001)
 - sigma/: Sigma-format rule pack (validated as YAML in CI)
 - tests/: pytest suite, including safety-gate refusal tests
 - docs/: architecture, threat model, detection design, encryption lesson

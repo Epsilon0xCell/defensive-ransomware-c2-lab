@@ -53,7 +53,8 @@ def main() -> int:
     base = f"http://127.0.0.1:{PORT}"
     try:
         for task in ("run_ransomware_sim", "run_partial_sim",
-                     "run_evasion_probes", "run_av_bypass_tests", "restore_sim"):
+                     "run_evasion_probes", "run_av_bypass_tests",
+                     "run_rootkit_detection", "run_firmware_verification", "restore_sim"):
             _queue(base, token, task)
         agent = c2.Agent(base, token, SANDBOX, master_key, log)
         done = agent.run_cycles(cycles=8, interval=0.3)

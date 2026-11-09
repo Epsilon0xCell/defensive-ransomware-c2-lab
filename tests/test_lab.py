@@ -133,3 +133,32 @@ def test_fake_av_tiers_and_bench(tmp_path):
     assert part["checks"]["entropy"] is False  # entropy-only would miss
     assert part["tiers"]["standard"] is True   # magic catches it
     assert bench["caught_by_tier"]["behavioural"] == bench["cases"]
+
+
+def test_rootkit_detector_cross_view(tmp_path):
+    from lab import rootkit_detector as rk
+    assert rk.cross_view_diff(rk.make_views("clean")) == []
+    for scenario, surface in (("hidden_process", "process"),
+                              ("hidden_file", "file"),
+                              ("hidden_module", "module")):
+        found = rk.cross_view_diff(rk.make_views(scenario))
+        assert len(found) == 1 and found[0]["surface"] == surface
+        assert found[0]["attck"] == "T1014"
+
+
+def test_firmware_verifier_clean_tamper_and_wrong_key(tmp_path):
+    from lab import firmware_verifier as fw
+    sb = tmp_path / "sandbox"
+    key = b"unit-test-key"
+    fw.make_dummy_firmware(sb, key)
+    clean = fw.verify_firmware(sb, key)
+    assert clean["verdict"] == "PASS" and clean["pcr_match"] is True
+    target = sb / "firmware" / "bootloader.bin"
+    blob = bytearray(target.read_bytes()); blob[10] ^= 0xFF
+    target.write_bytes(bytes(blob))
+    bad = fw.verify_firmware(sb, key)
+    assert bad["verdict"] == "FAIL" and bad["hashes_ok"] is False
+    assert bad["pcr_match"] is False
+    fw.make_dummy_firmware(sb, key)
+    wrong = fw.verify_firmware(sb, b"other-key")
+    assert wrong["signature_ok"] is False and wrong["verdict"] == "FAIL"

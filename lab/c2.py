@@ -18,14 +18,15 @@ import uuid
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
-from . import bypass_tests, probes
+from . import bypass_tests, firmware_verifier, probes, rootkit_detector
 from .safety import ensure_localhost
 from .simulator import restore_all, run_simulation
 from .telemetry import TelemetryLog
 
 ALLOWED_TASKS = ("ping_sim", "sysinfo_sim", "run_ransomware_sim",
                  "run_partial_sim", "run_evasion_probes", "restore_sim",
-                 "run_av_bypass_tests")
+                 "run_av_bypass_tests",
+                 "run_rootkit_detection", "run_firmware_verification")
 FORBIDDEN_RESULT_KEYS = {"master_key", "key", "wrapped_key", "file_contents",
                          "file_key", "password", "token"}
 MARKER_HEADER = "X-FakeC2-Lab"
@@ -167,6 +168,21 @@ class Agent:
         if task == "run_av_bypass_tests":
             bench = bypass_tests.run_bench(self.sandbox, self.master_key, self.log)
             return {"cases": bench["cases"], "caught_by_tier": bench["caught_by_tier"]}
+        if task == "run_rootkit_detection":
+            scenarios = rootkit_detector.run_all_scenarios(self.log)
+            return {"scenarios": {k: v["findings"] for k, v in scenarios.items()}}
+        if task == "run_firmware_verification":
+            key = b"lab-vendor-stand-in-key"
+            firmware_verifier.make_dummy_firmware(self.sandbox, key)
+            clean = firmware_verifier.verify_firmware(self.sandbox, key)
+            target = self.sandbox / "firmware" / "kernel.bin"
+            blob = bytearray(target.read_bytes()); blob[100] ^= 0xFF
+            target.write_bytes(bytes(blob))
+            tampered = firmware_verifier.verify_firmware(self.sandbox, key)
+            firmware_verifier.make_dummy_firmware(self.sandbox, key)  # restore clean state
+            return {"clean_verdict": clean["verdict"],
+                    "tampered_verdict": tampered["verdict"],
+                    "tampered_components": tampered["mismatched_components"]}
         if task == "restore_sim":
             r = restore_all(self.sandbox, self.master_key, self.log)
             return {"restored": sum(1 for x in r if x["restored"]),
