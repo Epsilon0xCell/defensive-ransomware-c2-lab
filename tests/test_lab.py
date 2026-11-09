@@ -113,3 +113,23 @@ def test_c2_integration_and_key_guard(tmp_path):
 def test_c2_refuses_non_localhost():
     with pytest.raises(SafetyError):
         c2.make_server("0.0.0.0", 8787, "t", TelemetryLog())
+
+
+def test_fake_av_tiers_and_bench(tmp_path):
+    from lab import bypass_tests, fake_av
+    from lab.telemetry import TelemetryLog as TL
+    sb = tmp_path / "sandbox"
+    make_dummies(sb)
+    log = TL()
+    bench = bypass_tests.run_bench(sb, new_key(), log)
+    by_file = {r["file"]: r for r in bench["results"]}
+    assert by_file["control_fakecrypt.FAKECRYPT"]["tiers"]["naive"] is True
+    assert by_file["no_extension"]["checks"]["extension"] is False
+    assert by_file["no_extension"]["tiers"]["naive"] is True  # magic saves it
+    enc = by_file["encoded_container.txt"]
+    assert enc["tiers"]["standard"] is False   # content scanning loses
+    assert enc["tiers"]["behavioural"] is True  # behaviour wins
+    part = by_file["partial_encryption.FAKECRYPT"]
+    assert part["checks"]["entropy"] is False  # entropy-only would miss
+    assert part["tiers"]["standard"] is True   # magic catches it
+    assert bench["caught_by_tier"]["behavioural"] == bench["cases"]

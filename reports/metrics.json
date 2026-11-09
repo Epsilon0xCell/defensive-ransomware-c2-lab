@@ -8,7 +8,7 @@
       "fired_on_positive": true,
       "fired_on_negative": false,
       "validated_L3": true,
-      "time_to_detect_s": 1.0264,
+      "time_to_detect_s": 1.021,
       "fp_notes": "Backup products are the FP source; read-only list must not fire."
     },
     {
@@ -19,7 +19,7 @@
       "fired_on_positive": true,
       "fired_on_negative": false,
       "validated_L3": true,
-      "time_to_detect_s": 0.0119,
+      "time_to_detect_s": 0.0096,
       "fp_notes": "Backup/sync bursts are the FP source; rate plus spread is the signal."
     },
     {
@@ -30,7 +30,7 @@
       "fired_on_positive": true,
       "fired_on_negative": false,
       "validated_L3": true,
-      "time_to_detect_s": 0.0156,
+      "time_to_detect_s": 0.0131,
       "fp_notes": "Fires on mode metadata joined to the burst, teaching the entropy gap."
     },
     {
@@ -41,7 +41,7 @@
       "fired_on_positive": true,
       "fired_on_negative": false,
       "validated_L3": true,
-      "time_to_detect_s": 0.0214,
+      "time_to_detect_s": 0.017,
       "fp_notes": "Never alert on a check alone in production; here it is scored joined to the run."
     },
     {
@@ -52,7 +52,7 @@
       "fired_on_positive": true,
       "fired_on_negative": false,
       "validated_L3": true,
-      "time_to_detect_s": 1.0263,
+      "time_to_detect_s": 1.021,
       "fp_notes": "Portable admin tools are the FP source; signer plus path tuning required."
     },
     {
@@ -63,7 +63,7 @@
       "fired_on_positive": true,
       "fired_on_negative": false,
       "validated_L3": true,
-      "time_to_detect_s": 0.0087,
+      "time_to_detect_s": 0.0067,
       "fp_notes": "Updates and telemetry also beacon; baseline per process and destination."
     },
     {
@@ -74,13 +74,13 @@
       "fired_on_positive": true,
       "fired_on_negative": false,
       "validated_L3": true,
-      "time_to_detect_s": 1.0259,
+      "time_to_detect_s": 1.0205,
       "fp_notes": "Legit archives use odd extensions; join to the burst rule."
     }
   ],
   "validated_count": 7,
   "total_rules": 7,
   "validated_coverage_pct": 100.0,
-  "ttd_median_s": 0.0214,
+  "ttd_median_s": 0.017,
   "attack_stamp": "technique IDs as researched 2026-11-09 (post-renumbering, legacy IDs noted)"
 }

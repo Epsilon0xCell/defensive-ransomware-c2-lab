@@ -42,6 +42,7 @@ reports/navigator_layer.json, plus a ground-truth telemetry log.
 - lab/c2.py: fake C2 server, operator queue, simulated agent
 - lab/detections.py: rules as data, coverage ladder, metrics, Navigator export
 - lab/run_lab.py: one-command end-to-end exercise
+- lab/fake_av.py + lab/bypass_tests.py: a fake AV scanner and its bypass test bench (against the fake AV only), with a generated scorecard
 - sigma/: Sigma-format rule pack (validated as YAML in CI)
 - tests/: pytest suite, including safety-gate refusal tests
 - docs/: architecture, threat model, detection design, encryption lesson

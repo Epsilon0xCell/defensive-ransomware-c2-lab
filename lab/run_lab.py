@@ -15,7 +15,7 @@ import threading
 import urllib.request
 from pathlib import Path
 
-from . import c2, detections
+from . import bypass_tests, c2, detections
 from .crypto_lab import new_key
 from .simulator import make_dummies
 from .telemetry import TelemetryLog
@@ -53,7 +53,7 @@ def main() -> int:
     base = f"http://127.0.0.1:{PORT}"
     try:
         for task in ("run_ransomware_sim", "run_partial_sim",
-                     "run_evasion_probes", "restore_sim"):
+                     "run_evasion_probes", "run_av_bypass_tests", "restore_sim"):
             _queue(base, token, task)
         agent = c2.Agent(base, token, SANDBOX, master_key, log)
         done = agent.run_cycles(cycles=8, interval=0.3)
@@ -65,7 +65,10 @@ def main() -> int:
     print(f"validated coverage: {evaluation['validated_count']} of "
           f"{evaluation['total_rules']} ({evaluation['validated_coverage_pct']} percent)")
     print(f"median time-to-detect: {evaluation['ttd_median_s']} s")
-    print(f"reports: {metrics.name}, {layer.name}, {report.name}")
+    bench = bypass_tests.run_bench(SANDBOX, master_key, log)
+    card = bypass_tests.write_scorecard(bench, ROOT / "reports" / "av_bypass_scorecard.md")
+    print(f"av bench: {bench['cases']} cases, caught by tier {bench['caught_by_tier']}")
+    print(f"reports: {metrics.name}, {layer.name}, {report.name}, {card.name}")
     return 0
 
 

@@ -18,13 +18,14 @@ import uuid
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
-from . import probes
+from . import bypass_tests, probes
 from .safety import ensure_localhost
 from .simulator import restore_all, run_simulation
 from .telemetry import TelemetryLog
 
 ALLOWED_TASKS = ("ping_sim", "sysinfo_sim", "run_ransomware_sim",
-                 "run_partial_sim", "run_evasion_probes", "restore_sim")
+                 "run_partial_sim", "run_evasion_probes", "restore_sim",
+                 "run_av_bypass_tests")
 FORBIDDEN_RESULT_KEYS = {"master_key", "key", "wrapped_key", "file_contents",
                          "file_key", "password", "token"}
 MARKER_HEADER = "X-FakeC2-Lab"
@@ -163,6 +164,9 @@ class Agent:
             probes.probe_recovery_inhibition_fixtures(self.log)
             return {"probes": ["env_check", "timing_sleep", "extension_variants",
                                "masquerade_fixture", "recovery_fixtures"]}
+        if task == "run_av_bypass_tests":
+            bench = bypass_tests.run_bench(self.sandbox, self.master_key, self.log)
+            return {"cases": bench["cases"], "caught_by_tier": bench["caught_by_tier"]}
         if task == "restore_sim":
             r = restore_all(self.sandbox, self.master_key, self.log)
             return {"restored": sum(1 for x in r if x["restored"]),

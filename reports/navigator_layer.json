@@ -12,49 +12,49 @@
       "enabled": true,
       "score": 1,
       "color": "#2ca02c",
-      "comment": "lab-1490-recovery-inhibition: validated L3 (fired on positive, silent on negative), TTD 1.0264s"
+      "comment": "lab-1490-recovery-inhibition: validated L3 (fired on positive, silent on negative), TTD 1.021s"
     },
     {
       "techniqueID": "T1486",
       "enabled": true,
       "score": 1,
       "color": "#2ca02c",
-      "comment": "lab-1486-encryption-burst: validated L3 (fired on positive, silent on negative), TTD 0.0119s"
+      "comment": "lab-1486-encryption-burst: validated L3 (fired on positive, silent on negative), TTD 0.0096s"
     },
     {
       "techniqueID": "T1486",
       "enabled": true,
       "score": 1,
       "color": "#2ca02c",
-      "comment": "lab-1486-partial-entropy: validated L3 (fired on positive, silent on negative), TTD 0.0156s"
+      "comment": "lab-1486-partial-entropy: validated L3 (fired on positive, silent on negative), TTD 0.0131s"
     },
     {
       "techniqueID": "T1497.001",
       "enabled": true,
       "score": 1,
       "color": "#2ca02c",
-      "comment": "lab-1497-anti-analysis-sequence: validated L3 (fired on positive, silent on negative), TTD 0.0214s"
+      "comment": "lab-1497-anti-analysis-sequence: validated L3 (fired on positive, silent on negative), TTD 0.017s"
     },
     {
       "techniqueID": "T1036",
       "enabled": true,
       "score": 1,
       "color": "#2ca02c",
-      "comment": "lab-1036-masquerade-fixture: validated L3 (fired on positive, silent on negative), TTD 1.0263s"
+      "comment": "lab-1036-masquerade-fixture: validated L3 (fired on positive, silent on negative), TTD 1.021s"
     },
     {
       "techniqueID": "T1071.001",
       "enabled": true,
       "score": 1,
       "color": "#2ca02c",
-      "comment": "lab-1071-beacon: validated L3 (fired on positive, silent on negative), TTD 0.0087s"
+      "comment": "lab-1071-beacon: validated L3 (fired on positive, silent on negative), TTD 0.0067s"
     },
     {
       "techniqueID": "T1486",
       "enabled": true,
       "score": 1,
       "color": "#2ca02c",
-      "comment": "lab-1486-variant-extensions: validated L3 (fired on positive, silent on negative), TTD 1.0259s"
+      "comment": "lab-1486-variant-extensions: validated L3 (fired on positive, silent on negative), TTD 1.0205s"
     }
   ]
 }
