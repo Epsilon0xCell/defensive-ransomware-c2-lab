@@ -31,6 +31,7 @@ CASES_DOC = {
     "renamed_dat": "Renamed to a data-file name. Same lesson as no_extension.",
     "encoded_container": "Lab artifact base64-encoded into a text file. Content checks miss it; behaviour catches the encode action.",
     "partial_encryption": "Partial mode artifact. Entropy-only checking misses it; magic catches it.",
+    "split_chunk_a": "First half of a split artifact. Magic is present in this half, so the naive tier catches it.",
     "split_chunk_b": "Second half of a split artifact. No magic, no marker; entropy and the split action are the only signals.",
 }
 
@@ -82,6 +83,7 @@ def run_bench(sandbox: Path, master_key: bytes, log: TelemetryLog) -> dict:
                    else "renamed_dat" if p.name.startswith("renamed")
                    else "encoded_container" if p.name.startswith("encoded")
                    else "partial_encryption" if p.name.startswith("partial")
+                   else "split_chunk_a" if p.name.startswith("split_chunk_a")
                    else "split_chunk_b")
         results.append({"file": p.name, "checks": r.checks, "tiers": r.tiers,
                         "entropy": r.entropy, "lesson": CASES_DOC[doc_key]})

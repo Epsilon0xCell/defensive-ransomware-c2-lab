@@ -72,8 +72,13 @@ def _encrypt_copy(src: Path, sandbox: Path, master_key: bytes, mode: str,
     return result
 
 
+MODES = ("full", "partial")
+
+
 def run_simulation(sandbox: Path, master_key: bytes, mode: str = "full",
                    log: TelemetryLog | None = None) -> list[dict]:
+    if mode not in MODES:
+        raise ValueError(f"unknown mode: {mode!r} (expected one of {MODES})")
     originals = sorted((sandbox / "originals").glob("*"))
     if len(originals) > MAX_FILES:
         raise ValueError("too many files for the lab cap")

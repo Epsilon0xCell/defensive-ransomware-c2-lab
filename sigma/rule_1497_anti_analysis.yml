@@ -9,7 +9,7 @@ logsource:
   service: telemetry
 detection:
   selection:
-    event_type: process_create
+    event_type: anti_analysis_check
   condition: selection
 level: medium
 tags:

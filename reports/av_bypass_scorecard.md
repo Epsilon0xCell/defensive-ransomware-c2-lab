@@ -20,5 +20,5 @@ Per-case lessons:
 - no_extension: Extension removed. Extension-only checking misses it; magic catches it.
 - partial_encryption.FAKECRYPT: Partial mode artifact. Entropy-only checking misses it; magic catches it.
 - renamed_dat.dat: Renamed to a data-file name. Same lesson as no_extension.
-- split_chunk_a: Second half of a split artifact. No magic, no marker; entropy and the split action are the only signals.
+- split_chunk_a: First half of a split artifact. Magic is present in this half, so the naive tier catches it.
 - split_chunk_b: Second half of a split artifact. No magic, no marker; entropy and the split action are the only signals.

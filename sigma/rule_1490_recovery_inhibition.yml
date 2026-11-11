@@ -10,6 +10,10 @@ logsource:
 detection:
   selection:
     event_type: process_create
+    command_line|contains|all:
+      - vssadmin
+      - delete
+      - shadows
   condition: selection
 level: medium
 tags:

@@ -9,7 +9,8 @@ logsource:
   service: telemetry
 detection:
   selection:
-    event_type: process_create
+    event_type: file_encrypt
+    mode: partial
   condition: selection
 level: medium
 tags:

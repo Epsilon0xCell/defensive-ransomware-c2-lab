@@ -109,10 +109,11 @@ def evaluate(events: list[Event], negatives: list[Event]) -> dict:
         if rule.rule_id == BURST_RULE_ID:
             ttd = _burst_ttd(events)
             fired_pos = ttd is not None
+            fired_neg = _burst_ttd(negatives) is not None
         else:
             fired_pos = pos is not None
             ttd = round(pos.ts - t0, 4) if pos else None
-        fired_neg = neg is not None
+            fired_neg = neg is not None
         results.append({
             "rule_id": rule.rule_id, "title": rule.title,
             "attck": rule.attck, "attck_legacy": rule.attck_legacy,

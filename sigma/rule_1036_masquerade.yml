@@ -10,6 +10,7 @@ logsource:
 detection:
   selection:
     event_type: process_create
+    true_type: synthetic_fixture_no_binary
   condition: selection
 level: medium
 tags:

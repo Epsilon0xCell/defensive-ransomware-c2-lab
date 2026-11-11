@@ -9,7 +9,7 @@ logsource:
   service: telemetry
 detection:
   selection:
-    event_type: process_create
+    event_type: beacon
   condition: selection
 level: medium
 tags:

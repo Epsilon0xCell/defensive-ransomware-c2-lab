@@ -162,3 +162,50 @@ def test_firmware_verifier_clean_tamper_and_wrong_key(tmp_path):
     fw.make_dummy_firmware(sb, key)
     wrong = fw.verify_firmware(sb, b"other-key")
     assert wrong["signature_ok"] is False and wrong["verdict"] == "FAIL"
+
+
+def test_unknown_simulation_mode_is_refused(sandbox):
+    with pytest.raises(ValueError):
+        run_simulation(sandbox, new_key(), "fulll")
+
+
+def test_burst_rule_negative_below_threshold_does_not_fire():
+    from lab.telemetry import Event
+    pos = [Event("file_encrypt", "sim", ts=1000.0 + i * 0.1,
+                 details={"mode": "full"}) for i in range(5)]
+    neg = [Event("file_encrypt", "fixture", ts=1000.0,
+                 details={"mode": "full"})]
+    ev = detections.evaluate(pos, neg)
+    burst = [r for r in ev["rules"]
+             if r["rule_id"] == "lab-1486-encryption-burst"][0]
+    assert burst["fired_on_positive"] is True
+    assert burst["fired_on_negative"] is False
+    assert burst["validated_L3"] is True
+
+
+def test_sigma_selections_match_lab_event_types():
+    import yaml
+    root = Path(__file__).resolve().parent.parent / "sigma"
+    expected = {
+        "rule_1071_beacon.yml": "beacon",
+        "rule_1486_encryption_burst.yml": "file_encrypt",
+        "rule_1486_partial_encryption.yml": "file_encrypt",
+        "rule_1497_anti_analysis.yml": "anti_analysis_check",
+    }
+    for name, event_type in expected.items():
+        doc = yaml.safe_load((root / name).read_text())
+        assert doc["detection"]["selection"]["event_type"] == event_type, name
+    partial = yaml.safe_load(
+        (root / "rule_1486_partial_encryption.yml").read_text())
+    assert partial["detection"]["selection"]["mode"] == "partial"
+
+
+def test_split_chunk_lessons_describe_the_correct_half(tmp_path):
+    from lab import bypass_tests
+    from lab.telemetry import TelemetryLog as TL
+    sb = tmp_path / "sandbox"
+    make_dummies(sb)
+    bench = bypass_tests.run_bench(sb, new_key(), TL())
+    by_file = {r["file"]: r for r in bench["results"]}
+    assert "First half" in by_file["split_chunk_a"]["lesson"]
+    assert "Second half" in by_file["split_chunk_b"]["lesson"]
